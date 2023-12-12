@@ -1,0 +1,29 @@
+Screen {
+    align: center middle;
+}
+
+#tabs {
+    dock: top;
+}
+
+#button-roulette {
+    width: auto;
+    margin: 1;
+}
+
+#user-input {
+    width: 33%;
+}
+
+#list-input {
+    width: 33%;
+}
+
+#film-title {
+    width: auto;
+}
+
+#watched-button {
+    width: auto;
+    margin: 1;
+}

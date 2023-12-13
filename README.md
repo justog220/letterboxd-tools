@@ -1,7 +1,7 @@
 # Letterboxd tools
 Letterboxd Tools is a command-line interface (CLI) tool written in Python that simplifies the process of selecting a random movie from either a group of Letterboxd users or a custom list.
 
-![Imgur](https://i.imgur.com/FOwlScN.gifv)
+![Imgur](https://i.imgur.com/FOwlScN.gif)
 
 ## Installation
 1. Clone the repository:

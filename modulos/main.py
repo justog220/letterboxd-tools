@@ -21,8 +21,9 @@ def get_user_page(user, page):
         # Itera sobre los elementos li
         for li_element in li_elements:
             div_element = li_element.find('div')
+            link = div_element.get("data-target-link")
             img_element = div_element.find('img')
-            titulos.append(img_element.get("alt"))
+            titulos.append([img_element.get("alt"), link])
 
         return titulos
     else:
@@ -42,8 +43,9 @@ def get_page(url, page):
         # Itera sobre los elementos li
         for li_element in li_elements:
             div_element = li_element.find('div')
+            link = div_element.get("data-target-link")
             img_element = div_element.find('img')
-            titulos.append(img_element.get("alt"))
+            titulos.append([img_element.get("alt"), link])
         return titulos
     else:
         raise RuntimeError
@@ -143,6 +145,27 @@ def existe_lista(url):
 def is_list_url(value):
     return findall(pattern=r"https:\/\/letterboxd.com\/\w+\/list\/",
                     string=value) != []
+
+def get_film_info(url):
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    header = soup.find('section', class_=lambda x: x and 'film-header-lockup' in x.split())
+    p_tag = header.find('p')
+    
+    año = p_tag.find('a').text
+
+
+    director = p_tag.find('span', class_='prettify').text
+    
+    review = soup.find('div', class_=lambda x: x and 'review' in x.split())
+    
+    review = review.find('p').text
+    
+    return {
+        'anio' : año,
+        'director' : director,
+        'review' : review
+    }
 
 
             

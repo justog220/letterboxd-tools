@@ -1,9 +1,8 @@
 from textual.app import App, ComposeResult
-from textual.containers import Horizontal, Center
-from textual.widgets import Tabs, TabPane, Header, TabbedContent, Input, Markdown, Tab, Static, Button, ProgressBar, LoadingIndicator
-from textual.validation import Function, Number, ValidationResult, Validator
-from modulos.main import get_list_content, get_user_watchlist, existe_usuario, existe_lista
-from textual import on
+from textual.containers import Center
+from textual.widgets import TabPane, Header, TabbedContent, Input, Static, Button, ProgressBar, Pretty
+from textual.validation import ValidationResult, Validator
+from modulos.main import get_list_content, get_user_watchlist, existe_usuario, existe_lista, get_film_info
 from random import choice
 from re import findall
 
@@ -18,8 +17,6 @@ class Application(App[None]):
                 yield UserInput()
             with TabPane(":film_frames: Lista"):
                 yield ListInput()
-        # yield Roulette()
-
 
     def on_mount(self) -> None:
         self.title = "Letterboxd Tools"
@@ -40,12 +37,6 @@ class UserInput(Static):
             yield self.custom_button
         with Center():
             yield self.roulette
-
-
-    # @on(Input.Submitted)
-    # def store_user(self):
-    #     with open("usuarios.txt", "w") as archi:
-    #         archi.write(Input.Submitted.value)
 
     def on_input_submitted(self, subm):
         if subm.value != "" and existe_usuario(subm.value):
@@ -97,20 +88,25 @@ class ListInput(Static):
             self.notify("Lista inexistente", timeout=1, severity="error")
 
 
-    
-
 class Roulette(Static):
     def __init__(self, list_url=None, users=[]):
         super().__init__()
         self.films_list = []
         self.film_displayed = ""
+        self.film_displayed_info = ""
         self.film_title = Static(renderable="[b]"+self.film_displayed, id="film-title")
+        self.film_info = Static(id="film-info")
+        self.film_review = Static(id="film-review")
         self.progress_bar = ProgressBar(total=0, show_eta=False)
         self.watched_button = Button("Vista\n:eye:", id="watched-button")
 
     def compose(self) -> ComposeResult:
         with Center():
             yield self.film_title
+        with Center():
+            yield self.film_info
+        with Center():
+            yield self.film_review
         with Center():
             yield self.watched_button
         with Center():
@@ -119,8 +115,7 @@ class Roulette(Static):
     def on_button_pressed(self, event: Button.Pressed) -> None:
         if event.button.id == "watched-button":
             self.films_list.remove(self.film_displayed)
-            self.film_displayed = choice(self.films_list)
-            self.film_title.update("[b]"+self.film_displayed)
+            self.update_info()
             self.progress_bar.advance(1)
 
     def set_users(self, users):
@@ -129,16 +124,21 @@ class Roulette(Static):
         self.largo_inicial = len(self.films_list)
         self.vistas = 0
         self.progress_bar.total = self.largo_inicial
-        self.film_displayed = choice(self.films_list)
-        self.film_title.update("[b]"+self.film_displayed)
+        self.update_info()
 
     def set_list(self, url):
         self.films_list += get_list_content(url)
         self.largo_inicial = len(self.films_list)
         self.vistas = 0
         self.progress_bar.total = self.largo_inicial
+        self.update_info()
+
+    def update_info(self):
         self.film_displayed = choice(self.films_list)
-        self.film_title.update("[b]"+self.film_displayed)
+        self.film_displayed_info = get_film_info(f"https://letterboxd.com{self.film_displayed[1]}")
+        self.film_title.update("[link=https://letterboxd.com"+self.film_displayed[1]+"]"+self.film_displayed[0]+"[/link]")
+        self.film_info.update(f"{self.film_displayed_info['anio']} - {self.film_displayed_info['director']}")
+        self.film_review.update(f"{self.film_displayed_info['review']}")
 
 class ListURL(Validator):  
     def validate(self, value: str) -> ValidationResult:

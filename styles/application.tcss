@@ -24,6 +24,17 @@ Screen {
     width: auto;
 }
 
+#film-info {
+    padding: 1;
+    width: auto;
+}
+
+#film-review {
+    padding: 1;
+    width: 50%;
+    text-align: center;
+}
+
 #watched-button {
     width: auto;
     margin: 1;

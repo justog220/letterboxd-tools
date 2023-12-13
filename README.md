@@ -1,4 +1,8 @@
 # Letterboxd tools
+![Static Badge](https://img.shields.io/badge/Made_with-Python-blue)
+![GitHub License](https://img.shields.io/github/license/justog220/letterboxd-tools?color=%2314181c)
+![GitHub Repo stars](https://img.shields.io/github/stars/justog220/letterboxd-tools?style=social&logo=github)
+
 Letterboxd Tools is a command-line interface (CLI) tool written in Python that simplifies the process of selecting a random movie from either a group of Letterboxd users or a custom list.
 
 ![Imgur](https://i.imgur.com/FOwlScN.gif)

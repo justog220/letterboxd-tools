@@ -5,7 +5,6 @@ from textual.validation import Function, Number, ValidationResult, Validator
 from modulos.main import get_list_content, get_user_watchlist, existe_usuario, existe_lista
 from textual import on
 from random import choice
-from colorama import just_fix_windows_console, init
 from re import findall
 
 
@@ -155,6 +154,4 @@ class ListURL(Validator):
 
 
 if __name__ == "__main__":
-    just_fix_windows_console()
-    init(autoreset=True)
     Application().run()

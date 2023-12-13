@@ -1,5 +1,6 @@
 Screen {
     align: center middle;
+    background: #14181c 100%;
 }
 
 #tabs {

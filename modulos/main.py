@@ -4,6 +4,7 @@ import time
 from concurrent.futures import ThreadPoolExecutor, wait, as_completed
 import os
 from functools import partial
+from re import findall
 
 def get_user_page(user, page):
     url = f"https://letterboxd.com/{user}/watchlist/page/{page}/"
@@ -133,7 +134,15 @@ def existe_usuario(user):
     return response.status_code == 200
 
 def existe_lista(url):
-    return requests.get(url).status_code == 200
+    if is_list_url(url):
+        return requests.get(url).status_code == 200
+    else:
+        return False
+
+
+def is_list_url(value):
+    return findall(pattern=r"https:\/\/letterboxd.com\/\w+\/list\/",
+                    string=value) != []
 
 
             

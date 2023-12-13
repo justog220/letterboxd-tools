@@ -1,9 +1,12 @@
 from textual.app import App, ComposeResult
 from textual.containers import Horizontal, Center
 from textual.widgets import Tabs, TabPane, Header, TabbedContent, Input, Markdown, Tab, Static, Button, ProgressBar, LoadingIndicator
+from textual.validation import Function, Number, ValidationResult, Validator
 from modulos.main import get_list_content, get_user_watchlist, existe_usuario, existe_lista
 from textual import on
 from random import choice
+from colorama import just_fix_windows_console, init
+from re import findall
 
 
 class Application(App[None]):
@@ -68,7 +71,11 @@ class ListInput(Static):
     def __init__(self):
         super().__init__()
         self.url = None
-        self.input_widget = Input(placeholder="Inserte una lista", id="list-input")
+        self.input_widget = Input(placeholder="Inserte una lista", 
+                                  id="list-input",
+                                  validators=[
+                                      ListURL(),
+                                  ])
         self.roulette = Roulette()
         self.roulette.display = False
 
@@ -78,6 +85,7 @@ class ListInput(Static):
         with Center():
             yield self.roulette
 
+    
     def on_input_submitted(self, subm):
         if subm.value != "" and existe_lista(subm.value):
             self.url = subm.value
@@ -99,7 +107,7 @@ class Roulette(Static):
         self.film_displayed = ""
         self.film_title = Static(renderable="[b]"+self.film_displayed, id="film-title")
         self.progress_bar = ProgressBar(total=0, show_eta=False)
-        self.watched_button = Button(":eye:", id="watched-button")
+        self.watched_button = Button("Vista\n:eye:", id="watched-button")
 
     def compose(self) -> ComposeResult:
         with Center():
@@ -133,6 +141,20 @@ class Roulette(Static):
         self.film_displayed = choice(self.films_list)
         self.film_title.update("[b]"+self.film_displayed)
 
+class ListURL(Validator):  
+    def validate(self, value: str) -> ValidationResult:
+        if self.is_list_url(value):
+            return self.success()
+        else:
+            return self.failure("No es una url válida.")
+
+    @staticmethod
+    def is_list_url(value: str) -> bool:
+        return findall(pattern=r"https:\/\/letterboxd.com\/\w+\/list\/",
+                       string=value) != []
+
 
 if __name__ == "__main__":
+    just_fix_windows_console()
+    init(autoreset=True)
     Application().run()

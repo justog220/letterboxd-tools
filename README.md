@@ -15,7 +15,7 @@ pip install -r requirements.txt
 ```bash
 python3 main.py
 ```
-> Note: If the application doesn't render properly, consider using a different terminal emulator for an optimal experience.
+> Note: If the application doesn't render properly, consider using a different terminal emulator for an optimal experience. For windows I suggest: [Windows Terminal](https://apps.microsoft.com/detail/9N0DX20HK701)
 
 ## Usage
 

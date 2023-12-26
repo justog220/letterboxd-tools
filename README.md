@@ -7,7 +7,8 @@ Letterboxd Tools is a command-line interface (CLI) tool written in Python that s
 
 ![Imgur](https://i.imgur.com/FOwlScN.gif)
 
-## Installation
+## Installation and usage
+
 1. Clone the repository:
 ```bash
 git clone https://github.com/justog220/letterboxd-tools
@@ -23,7 +24,10 @@ python3 main.py
 ```
 > Note: If the application doesn't render properly, consider using a different terminal emulator for an optimal experience. For windows I suggest: [Windows Terminal](https://apps.microsoft.com/detail/9N0DX20HK701)
 
-## Usage
+## Feedback
+
+If you have any feedback, please reach out to me at justogarciapc@gmail.com
+
 
 ## Contributing
 If you would like to contribute to the development of Letterboxd Tools, feel free to open an issue or submit a pull request on the GitHub repository.

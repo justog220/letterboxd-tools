@@ -149,6 +149,8 @@ def is_list_url(value):
 def get_film_info(url):
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
+    rating = soup.find('meta', {'name': 'twitter:data2'}).get('content')
+    rating = rating.split()[0]
     header = soup.find('section', class_=lambda x: x and 'film-header-lockup' in x.split())
     p_tag = header.find('p')
     
@@ -163,6 +165,7 @@ def get_film_info(url):
     
     return {
         'anio' : año,
+        'rating' : rating,
         'director' : director,
         'review' : review
     }

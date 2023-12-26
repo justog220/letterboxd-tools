@@ -29,6 +29,10 @@ Screen {
     width: auto;
 }
 
+#film-rating {
+    width: auto;
+}
+
 #film-review {
     padding: 1;
     width: 50%;

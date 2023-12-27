@@ -26,7 +26,7 @@ class UserInput(Static):
         super().__init__()
         self.usuarios = []
         self.input_widget = Input(placeholder="Insert a user", id="user-input")
-        self.custom_button = Button("Ir a ruleta", id="button-roulette")
+        self.custom_button = Button("Go to roulette", id="button-roulette")
         self.roulette = Roulette()
         self.roulette.display = False
 
@@ -141,7 +141,10 @@ class Roulette(Static):
         self.film_displayed_info = get_film_info(f"https://letterboxd.com{self.film_displayed[1]}")
         self.film_title.update("[link=https://letterboxd.com"+self.film_displayed[1]+"]"+self.film_displayed[0]+"[/link]")
         self.film_info.update(f"{self.film_displayed_info['anio']} - {self.film_displayed_info['director']}")
-        self.film_rating.update(f"{self.film_displayed_info['rating']} :star2:")
+        if self.film_displayed_info['rating'] != "":
+            self.film_rating.update(f"{self.film_displayed_info['rating']} :star2:")
+        else:
+            self.film_rating.update("")
         self.film_review.update(f"{self.film_displayed_info['review']}")
 
 class ListURL(Validator):  

@@ -149,8 +149,12 @@ def is_list_url(value):
 def get_film_info(url):
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
-    rating = soup.find('meta', {'name': 'twitter:data2'}).get('content')
-    rating = rating.split()[0]
+    try:
+        rating = soup.find('meta', {'name': 'twitter:data2'}).get('content')
+        rating = rating.split()[0]
+    except AttributeError:
+        rating = ""
+    
     header = soup.find('section', class_=lambda x: x and 'film-header-lockup' in x.split())
     p_tag = header.find('p')
     
